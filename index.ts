@@ -37,3 +37,21 @@ processStudent({
 
 processStudent(42);
 
+
+import {
+    parseStudent
+} from "./models/student.model";
+
+console.log(
+    parseStudent({
+        id: "STU-001",
+        name: "Hana"
+    })
+);
+
+parseStudent({
+    id: 42,
+    name: "Test"
+});
+
+
