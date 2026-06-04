@@ -1,5 +1,9 @@
+
+import { Temporal } from "@js-temporal/polyfill";
+
 export interface Course {
-    code: string;
-    title: string;
-    capacity: number;
+readonly id: string;
+title: string;
+capacity: number;
+startDate?: Temporal.PlainDate;
 }

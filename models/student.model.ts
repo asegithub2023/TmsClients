@@ -1,8 +1,10 @@
+import { Temporal } from "@js-temporal/polyfill";
+
 export interface Student {
     readonly id: string;
     name: string;
     enrollmentDate: Temporal.Instant;
-    gpa?: number;
+    gpa?: number;// Optional undefined until the student receives a grade
 }
 
 
@@ -33,6 +35,7 @@ export function parseStudent(
             }`
         );
     }
+
 
     const obj =
         raw as Record<string, unknown>;
