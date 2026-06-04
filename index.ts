@@ -1,18 +1,17 @@
 import { Temporal } from "@js-temporal/polyfill";
-import { Student } from "./models/student.model";
+import { Student, isStudent } from "./models/student.model";
+import { parseStudent } from "./models/student.model";
 
 const student: Student = {
-    id: "STU-001",
-    name: "Hana",
-    enrollmentDate: Temporal.Now.instant(),
-    gpa: 3.7
+id: "STU-001",
+name: "Hana Tadesse",
+enrollmentDate: Temporal.Now.instant(),
 };
 
-console.log(student);
+//student.id = "STU-999";// Cannot assign to b/c id is read only property
+//console.log(student.gpa.toFixed(2));//student.gpa is optional.
+console.log(student.gpa?.toFixed(2) ?? "Not yet graded");
 
-
-
-import { Student, isStudent } from "./models/student.model";
 
 function processStudent(raw: unknown) {
     if (isStudent(raw)) {
@@ -37,21 +36,9 @@ processStudent({
 
 processStudent(42);
 
+console.log(parseStudent({ id: "STU-001", name: "Hana" }));// Prints a valid Student object
 
-import {
-    parseStudent
-} from "./models/student.model";
+parseStudent({ id: 42, name: "Test" });// Throws: TypeError: Expected id to be a string, received numbe
 
-console.log(
-    parseStudent({
-        id: "STU-001",
-        name: "Hana"
-    })
-);
-
-parseStudent({
-    id: 42,
-    name: "Test"
-});
 
 
