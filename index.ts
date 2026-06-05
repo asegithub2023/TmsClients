@@ -1,6 +1,8 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { Student, isStudent } from "./models/student.model";
 import { parseStudent } from "./models/student.model";
+import { CourseStatus, describeCourse } from "./models/course.model"; 
+
 
 const student: Student = {
 id: "STU-001",
@@ -63,3 +65,23 @@ console.log(`Quiz grade: ${calculateGrade(quiz)}%`); // 80
 console.log(`Lab grade: ${calculateGrade(lab)}%`); // 87 
 // Verify readonly  try this line and check the compiler error: 
 quiz.id = "QUIZ-999"; // ERROR: Cannot assign to 'id' because it is a read-only property 
+
+
+
+const pending: EnrollmentStatus = { 
+  status: "PENDING", 
+  requestedAt: Temporal.Now.instant(), 
+  studentId: "STU-001", 
+  courseId: "CRS-101", 
+}; 
+console.log(describeEnrollment(pending)); // Awaiting approval since 2026-05-08T... 
+
+
+
+
+const webDev: CourseStatus = { 
+  status: "ACTIVE", 
+  enrolledCount: 28, 
+  startDate: Temporal.PlainDate.from("2026-09-01"), 
+}; 
+console.log(describeCourse(webDev)); // Should print something like: Active with 28 students since 2026-09-01 
