@@ -7,3 +7,6 @@ title: string;
 capacity: number;
 startDate?: Temporal.PlainDate;
 }
+}
+
+//session2

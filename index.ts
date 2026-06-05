@@ -42,3 +42,24 @@ parseStudent({ id: 42, name: "Test" });// Throws: TypeError: Expected id to be a
 
 
 
+//session2
+import { AssessmentItem, calculateGrade } from "./models/assessment.model"; 
+ 
+const quiz: AssessmentItem = { 
+  id: "QUIZ-001", 
+  kind: "quiz", 
+title: "SQL Basics", 
+correctAnswers: 8, 
+totalQuestions: 10, 
+}; 
+const lab: AssessmentItem = { 
+id: "LAB-001", 
+kind: "lab", 
+title: "REST API Project", 
+functionalityScore: 85, 
+codeQualityScore: 90, 
+}; 
+console.log(`Quiz grade: ${calculateGrade(quiz)}%`); // 80 
+console.log(`Lab grade: ${calculateGrade(lab)}%`); // 87 
+// Verify readonly  try this line and check the compiler error: 
+quiz.id = "QUIZ-999"; // ERROR: Cannot assign to 'id' because it is a read-only property 
