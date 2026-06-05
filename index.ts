@@ -2,10 +2,9 @@ import { Temporal } from "@js-temporal/polyfill";
 import { Student, isStudent } from "./models/student.model";
 import { parseStudent } from "./models/student.model";
 import { CourseStatus, describeCourse } from "./models/course.model"; 
-
-
 import { ApiResponse, renderResponse } from "./models/api-response.model"; 
 import { Course } from "./models/course.model"; 
+import { AssessmentItem, calculateGrade } from "./models/assessment.model"; 
 
 const student: Student = {
 id: "STU-001",
@@ -48,8 +47,6 @@ parseStudent({ id: 42, name: "Test" });// Throws: TypeError: Expected id to be a
 
 
 //session2
-import { AssessmentItem, calculateGrade } from "./models/assessment.model"; 
- 
 const quiz: AssessmentItem = { 
   id: "QUIZ-001", 
   kind: "quiz", 
@@ -66,7 +63,6 @@ codeQualityScore: 90,
 }; 
 console.log(`Quiz grade: ${calculateGrade(quiz)}%`); // 80 
 console.log(`Lab grade: ${calculateGrade(lab)}%`); // 87 
-// Verify readonly  try this line and check the compiler error: 
 quiz.id = "QUIZ-999"; // ERROR: Cannot assign to 'id' because it is a read-only property 
 
 
@@ -81,7 +77,6 @@ console.log(describeEnrollment(pending)); // Awaiting approval since 2026-05-08T
 
 
 
-
 const webDev: CourseStatus = { 
   status: "ACTIVE", 
   enrolledCount: 28, 
@@ -90,7 +85,7 @@ const webDev: CourseStatus = {
 console.log(describeCourse(webDev)); // Should print something like: Active with 28 students since 2026-09-01 
 
 
- 
+
 const studentRes: ApiResponse<Student> = { 
   status: "success", 
   data: { 
@@ -124,4 +119,27 @@ renderResponse(courseListRes, (courses) =>
 courses.map((c) => c.title).join(", "), 
 ), 
 ); 
+
+
+
+// 1. Record the exact moment an enrollment is approved (UTC) 
+const approvedAt = Temporal.Now.instant(); 
+console.log(`Approved at (UTC): ${approvedAt}`); 
+// 2. Display in local timezone 
+const addisTime = approvedAt.toZonedDateTimeISO("Africa/Addis_Ababa"); 
+const londonTime = approvedAt.toZonedDateTimeISO("Europe/London"); 
+console.log(`Addis: ${addisTime.toPlainTime()}`); 
+console.log(`London: ${londonTime.toPlainTime()}`); 
+// Same moment, different wall-clock time 
+// 3. Course start date (date only, no time) 
+const courseStart = Temporal.PlainDate.from("2026-09-01"); 
+const today = Temporal.Now.plainDateISO(); 
+const daysUntilStart = today.until(courseStart).total({ unit: "days" }); 
+console.log(`${Math.floor(daysUntilStart)} days until course starts`); 
+// 4. Assignment deadline duration 
+const deadline = Temporal.PlainDate.from("2026-12-15"); 
+const remaining = today.until(deadline); 
+console.log( 
+`${remaining.total({ unit: "days" })} days until assignment is due`, 
+);
 
