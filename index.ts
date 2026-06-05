@@ -4,6 +4,9 @@ import { parseStudent } from "./models/student.model";
 import { CourseStatus, describeCourse } from "./models/course.model"; 
 
 
+import { ApiResponse, renderResponse } from "./models/api-response.model"; 
+import { Course } from "./models/course.model"; 
+
 const student: Student = {
 id: "STU-001",
 name: "Hana Tadesse",
@@ -85,3 +88,40 @@ const webDev: CourseStatus = {
   startDate: Temporal.PlainDate.from("2026-09-01"), 
 }; 
 console.log(describeCourse(webDev)); // Should print something like: Active with 28 students since 2026-09-01 
+
+
+ 
+const studentRes: ApiResponse<Student> = { 
+  status: "success", 
+  data: { 
+    id: "STU-001", 
+    name: "Dawit Bekele", 
+    enrollmentDate: Temporal.Now.instant(), 
+    gpa: 3.4, 
+  }, 
+  fetchedAt: Temporal.Now.instant(), 
+}; 
+ 
+console.log( 
+  renderResponse(studentRes, (s) => `${s.name}  GPA: ${s.gpa ?? "N/A"}`), 
+); 
+ 
+// Now test with a different data type 
+const courseListRes: ApiResponse<Course[]> = { 
+  status: "success", 
+  data: [ 
+    { 
+      id: "CRS-101", 
+      title: "Web Development Fundamentals", 
+      capacity: 30, 
+      startDate: Temporal.PlainDate.from("2026-09-01"), 
+    }, 
+  ], 
+  fetchedAt: Temporal.Now.instant(), 
+}; 
+console.log( 
+renderResponse(courseListRes, (courses) => 
+courses.map((c) => c.title).join(", "), 
+), 
+); 
+
