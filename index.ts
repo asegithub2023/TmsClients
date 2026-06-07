@@ -5,6 +5,8 @@ import { CourseStatus, describeCourse } from "./models/course.model";
 import { ApiResponse, renderResponse } from "./models/api-response.model"; 
 import { Course } from "./models/course.model"; 
 import { AssessmentItem, calculateGrade } from "./models/assessment.model"; 
+import { EnrollmentStatus, describeEnrollment } from "./models/enrollment.model"; 
+
 
 const student: Student = {
 id: "STU-001",
@@ -63,7 +65,7 @@ codeQualityScore: 90,
 }; 
 console.log(`Quiz grade: ${calculateGrade(quiz)}%`); // 80 
 console.log(`Lab grade: ${calculateGrade(lab)}%`); // 87 
-quiz.id = "QUIZ-999"; // ERROR: Cannot assign to 'id' because it is a read-only property 
+//quiz.id = "QUIZ-999"; // ERROR: Cannot assign to 'id' because it is a read-only property 
 
 
 
@@ -74,7 +76,6 @@ const pending: EnrollmentStatus = {
   courseId: "CRS-101", 
 }; 
 console.log(describeEnrollment(pending)); // Awaiting approval since 2026-05-08T... 
-
 
 
 const webDev: CourseStatus = { 
